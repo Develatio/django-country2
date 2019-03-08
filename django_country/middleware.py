@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from django.utils.deprecation import MiddlewareMixin
+
 from . import geo
 
 
-class CountryMiddleware(object):
+class CountryMiddleware(MiddlewareMixin):
     """
     This is a middleware that parses a request
     and decides which country the request came from.

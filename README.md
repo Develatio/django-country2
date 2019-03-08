@@ -16,10 +16,10 @@ Add the middleware in django settings:
 ```
 # settings.py
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     ...
     'django_country.middleware.CountryMiddleware',
-)
+]
 ```
 If you use `SessionMiddleware`, it needs to appear before `CountryMiddleware` in the list.
 
