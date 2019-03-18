@@ -5,7 +5,7 @@ setup(
     name='django-country2',
     version='0.0.1',
     url='https://github.com/Develatio/django-country2',
-    author='Develatio Technologies S.L.'',
+    author='Develatio Technologies S.L.',
     author_email='contacto@develat.io',
     description=('Provides Django middleware that detects '
                  'a country the request came from.'),
