@@ -1,4 +1,8 @@
+import os
 from setuptools import setup
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+README = open(os.path.join(HERE, 'README.md')).read()
 
 
 setup(
@@ -9,6 +13,7 @@ setup(
     author_email='contacto@develat.io',
     description=('Provides Django middleware that detects '
                  'a country the request came from.'),
+    long_description=README,
     packages=['django_country2'],
     include_package_data=True,
     scripts=[],
