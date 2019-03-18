@@ -4,7 +4,7 @@ import unittest
 
 from django.http.request import HttpRequest
 
-from django_country import geo
+from django_country2 import geo
 
 
 class TestGetCountryFromRequest(unittest.TestCase):

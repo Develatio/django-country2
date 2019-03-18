@@ -9,7 +9,7 @@ setup(
     author_email='contacto@develat.io',
     description=('Provides Django middleware that detects '
                  'a country the request came from.'),
-    packages=['django_country'],
+    packages=['django_country2'],
     include_package_data=True,
     scripts=[],
     extras_require={

@@ -7,7 +7,7 @@ from django_countries import countries
 
 DEFAULT_COUNTRY_CODE = getattr(settings, 'COUNTRY_CODE', 'US').upper()
 SUPPORTED_COUNTRIES = dict(getattr(settings, 'COUNTRIES', countries.countries))
-COUNTRY_SESSION_KEY = getattr(settings, 'COUNTRY_SESSION_KEY', 'django_country')
+COUNTRY_SESSION_KEY = getattr(settings, 'COUNTRY_SESSION_KEY', 'django_country2')
 COUNTRY_COOKIE_NAME = getattr(settings, 'COUNTRY_COOKIE_NAME', 'country')
 COUNTRY_COOKIE_AGE = getattr(settings, 'COUNTRY_COOKIE_AGE', None)
 COUNTRY_COOKIE_PATH = getattr(settings, 'COUNTRY_COOKIE_PATH', '/')

@@ -17,7 +17,7 @@ Add the middleware in django settings:
 
 MIDDLEWARE = [
     ...
-    'django_country.middleware.CountryMiddleware',
+    'django_country2.middleware.CountryMiddleware',
 ]
 ```
 If you use `SessionMiddleware`, it needs to appear before `CountryMiddleware` in the list.
@@ -34,7 +34,7 @@ Add an endpoint to set country manually:
 
 urlpatterns = patterns('',
   ...
-  url(r'/', include((django_country.urls')),
+  url(r'/', include((django_country2.urls')),
 )
 ```
 Now you can send POST request to `<host>/country/` with `country` data
@@ -46,7 +46,7 @@ Access country in Django templates:
 # settings.py
 TEMPLATE_CONTEXT_PROCESSORS = (
   ...
-  'django_country.context_processors.country',
+  'django_country2.context_processors.country',
 )
 
 # index.html
@@ -89,7 +89,7 @@ Default: `False`
 A boolean that specifieds if locale information in ACCEPT-LANGUAGE HTTP header should be used to detect country.
 
 ### COUNTRY_SESSION_KEY
-Default: `'django_country'`
+Default: `'django_country2'`
 
 Session key under which the active country for the current session is stored.
 

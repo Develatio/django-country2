@@ -4,8 +4,8 @@ import unittest
 
 from django.http.request import HttpRequest
 
-from django_country import geo
-from django_country.views import set_country
+from django_country2 import geo
+from django_country2.views import set_country
 
 
 class TestSetCountry(unittest.TestCase):
