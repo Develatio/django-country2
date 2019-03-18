@@ -1,7 +1,6 @@
-# Django Country
+# Django Country 2
 
-A Django middleware that adds current country information to request object. The
-current country can be set manually or can be detected automatically
+This is a new version of [django-country](https://github.com/color/django-country) for the new versions of Django. A Django middleware that adds current country information to request object. The current country can be set manually or can be detected automatically
 based on IP address or locale information in the HTTP header.
 
 ## Getting Started
