@@ -2,11 +2,11 @@ from setuptools import setup
 
 
 setup(
-    name='django-country',
-    version='0.1.0',
-    url='https://github.com/ColorGenomics/django-country',
-    author='Color Genomics, Inc.',
-    author_email='katsuya@getcolor.com',
+    name='django-country2',
+    version='0.0.1',
+    url='https://github.com/Develatio/django-country2',
+    author='Develatio Technologies S.L.'',
+    author_email='contacto@develat.io',
     description=('Provides Django middleware that detects '
                  'a country the request came from.'),
     packages=['django_country'],
@@ -14,7 +14,7 @@ setup(
     scripts=[],
     extras_require={
         "pygeoip": ["pygeoip>=0.3.1"],
-        "django-countries": ["django-countries>=3.3"],
+        "django-countries": ["django-countries>=5.3.3"],
     },
     zip_safe=False,
 )

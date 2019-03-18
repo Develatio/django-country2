@@ -7,7 +7,7 @@ based on IP address or locale information in the HTTP header.
 
 Install django-country package:
 ```
-pip install django-country
+pip install django-country2
 ```
 
 
