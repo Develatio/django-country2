@@ -58,12 +58,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 The middleware detects country from the following sources in the given order:
 
+1. HEADER_FORZE_COUNTRY. Name of the heading to force the country code
 1. session, if country code is set in session.
 1. cookie, if country code is set in cookie.
 1. IP address, if `settings.USE_GEOIP` is `True` (default: `False`).
 1. HTTP_ACCEPT_LANGUAGE HTTP header if `settings.USE_LOCALE` is `True` (default: `False`).
 
 ## Settings
+
+## HEADER_FORZE_COUNTRY
+Name of the heading to force the country code
 
 ### COUNTRY_CODE
 Default: `'US'`

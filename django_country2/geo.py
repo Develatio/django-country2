@@ -11,6 +11,7 @@ COUNTRY_SESSION_KEY = getattr(settings, 'COUNTRY_SESSION_KEY', 'django_country2'
 COUNTRY_COOKIE_NAME = getattr(settings, 'COUNTRY_COOKIE_NAME', 'country')
 COUNTRY_COOKIE_AGE = getattr(settings, 'COUNTRY_COOKIE_AGE', None)
 COUNTRY_COOKIE_PATH = getattr(settings, 'COUNTRY_COOKIE_PATH', '/')
+HEADER_FORZE_COUNTRY = getattr(settings, 'HEADER_FORZE_COUNTRY', False)
 USE_GEOIP = getattr(settings, 'USE_GEOIP', False)
 USE_LOCALE = getattr(settings, 'USE_LOCALE', False)
 
@@ -33,6 +34,7 @@ def get_country_from_request(request):
     Analyzes the request to find which country the user wants
     the system to recognize. It checks the following sources
     in the given order:
+    * HEADER forze country
     * session,
     * cookie,
     * HTTP_ACCEPT_LANGUAGE HTTP header, and
@@ -40,6 +42,11 @@ def get_country_from_request(request):
 
     It returns country code in ISO 3166-1 alpha-2 format.
     """
+    if HEADER_FORZE_COUNTRY:
+        country_code = request.META.get(HEADER_FORZE_COUNTRY, None)
+        if country_code:
+            return get_supported_country(country_code)        
+
     if hasattr(request, 'session'):
         country_code = request.session.get(COUNTRY_SESSION_KEY)
         if country_code:
