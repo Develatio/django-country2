@@ -7,7 +7,7 @@ README = open(os.path.join(HERE, 'README.md')).read()
 
 setup(
     name='django-country2',
-    version='0.0.2',
+    version='0.0.4',
     url='https://github.com/Develatio/django-country2',
     author='Develatio Technologies S.L.',
     author_email='contacto@develat.io',
