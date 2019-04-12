@@ -43,9 +43,12 @@ def get_country_from_request(request):
     It returns country code in ISO 3166-1 alpha-2 format.
     """
     if HEADER_FORCE_COUNTRY:
-        country_code = request.META.get(HEADER_FORCE_COUNTRY, None)
+        header = HEADER_FORCE_COUNTRY.upper().replace('-', '_')
+        country_code = request.META.get('HTTP_' + header, None)
         if country_code:
-            return get_supported_country(country_code)        
+            supported_country_code = get_supported_country(country_code)
+            if supported_country_code == country_code.upper():
+                return supported_country_code
 
     if hasattr(request, 'session'):
         country_code = request.session.get(COUNTRY_SESSION_KEY)
