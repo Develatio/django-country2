@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import logging
 from django.conf import settings
 from django.utils.translation import trans_real
-
 from django_countries import countries
 
+logger = logging.getLogger('django.contrib.gis')
 
 DEFAULT_COUNTRY_CODE = getattr(settings, 'COUNTRY_CODE', 'US').upper()
 SUPPORTED_COUNTRIES = dict(getattr(settings, 'COUNTRIES', countries.countries))
@@ -61,9 +62,12 @@ def get_country_from_request(request):
 
     if USE_GEOIP:
         ip = _extract_ip_address(request.META)
-        country_code = _geo.country_code_by_addr(ip)
-        if country_code:
-            return get_supported_country(country_code)
+        try:
+            country_code = _geo.country_code_by_addr(ip)
+            if country_code:
+                return get_supported_country(country_code)
+        except pygeoip.GeoIPError as e:
+            logger.error("pygeoip.GeoIPError: %s", e)
 
     if USE_LOCALE:
         accept = request.META.get('HTTP_ACCEPT_LANGUAGE', '')
