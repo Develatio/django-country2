@@ -27,8 +27,8 @@ LANG_COUNTRY_DELIM = '-'
 _geo = None
 if USE_GEOIP:
     assert bool(settings.GEOIP_DAT_PATH)
-    import pygeoip
-    _geo = pygeoip.GeoIP(settings.GEOIP_DAT_PATH)
+    import geoip2.database
+    _geo = geoip2.database.Reader(settings.GEOIP_DAT_PATH)
 
 def get_country_from_request(request):
     """
@@ -63,11 +63,13 @@ def get_country_from_request(request):
     if USE_GEOIP:
         ip = _extract_ip_address(request.META)
         try:
-            country_code = _geo.country_code_by_addr(ip)
+            country_code = _geo.country(ip)
             if country_code:
                 return get_supported_country(country_code)
-        except pygeoip.GeoIPError as e:
-            logger.error("pygeoip.GeoIPError: %s", e)
+        except geoip2.errors.AddressNotFoundError:
+            pass
+        except Exception as e:
+            logger.error("Error: %s", e)
 
     if USE_LOCALE:
         accept = request.META.get('HTTP_ACCEPT_LANGUAGE', '')
