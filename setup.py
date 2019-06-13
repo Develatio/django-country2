@@ -7,7 +7,7 @@ README = open(os.path.join(HERE, 'README.md')).read()
 
 setup(
     name='django-country2',
-    version='0.0.6',
+    version='0.0.7',
     url='https://github.com/Develatio/django-country2',
     author='Develatio Technologies S.L.',
     author_email='contacto@develat.io',
@@ -17,9 +17,9 @@ setup(
     packages=['django_country2'],
     include_package_data=True,
     scripts=[],
-    extras_require={
-        "geoip2": ["geoip2>=2.9.0"],
-        "django-countries": ["django-countries>=5.3.3"],
-    },
+    install_requires=[
+        "geoip2>=2.9.0",
+        "django-countries>=5.3.3",
+    ],
     zip_safe=False,
 )
