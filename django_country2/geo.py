@@ -63,7 +63,8 @@ def get_country_from_request(request):
     if USE_GEOIP:
         ip = _extract_ip_address(request.META)
         try:
-            country_code = _geo.country(ip)
+            geocountry = _geo.country(ip)
+            country_code = geocountry.country.iso_code 
             if country_code:
                 return get_supported_country(country_code)
         except geoip2.errors.AddressNotFoundError:
