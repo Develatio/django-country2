@@ -13,6 +13,7 @@ COUNTRY_COOKIE_NAME = getattr(settings, 'COUNTRY_COOKIE_NAME', 'country')
 COUNTRY_COOKIE_AGE = getattr(settings, 'COUNTRY_COOKIE_AGE', None)
 COUNTRY_COOKIE_PATH = getattr(settings, 'COUNTRY_COOKIE_PATH', '/')
 HEADER_FORCE_COUNTRY = getattr(settings, 'HEADER_FORCE_COUNTRY', None)
+HEADER_REVERSE_PROXY_COUNTRY = getattr(settings, 'HEADER_REVERSE_PROXY_COUNTRY', None)
 USE_GEOIP = getattr(settings, 'USE_GEOIP', False)
 USE_LOCALE = getattr(settings, 'USE_LOCALE', False)
 
@@ -30,12 +31,14 @@ if USE_GEOIP:
     import geoip2.database
     _geo = geoip2.database.Reader(settings.GEOIP_DAT_PATH)
 
+
 def get_country_from_request(request):
     """
     Analyzes the request to find which country the user wants
     the system to recognize. It checks the following sources
     in the given order:
-    * HEADER FORCE country
+    * settings.HEADER_FORCE_COUNTRY
+    * settings.HEADER_REVERSE_PROXY_COUNTRY
     * session,
     * cookie,
     * HTTP_ACCEPT_LANGUAGE HTTP header, and
@@ -44,12 +47,16 @@ def get_country_from_request(request):
     It returns country code in ISO 3166-1 alpha-2 format.
     """
     if HEADER_FORCE_COUNTRY:
-        header = HEADER_FORCE_COUNTRY.upper().replace('-', '_')
-        country_code = request.META.get('HTTP_' + header, None)
-        if country_code:
-            supported_country_code = get_supported_country(country_code)
-            if supported_country_code == country_code.upper():
-                return supported_country_code
+        supported_country_code = _get_country_from_header(
+            request, HEADER_FORCE_COUNTRY)
+        if supported_country_code is not None:
+            return supported_country_code
+
+    if HEADER_REVERSE_PROXY_COUNTRY:
+        supported_country_code = _get_country_from_header(
+            request, HEADER_REVERSE_PROXY_COUNTRY)
+        if supported_country_code is not None:
+            return supported_country_code
 
     if hasattr(request, 'session'):
         country_code = request.session.get(COUNTRY_SESSION_KEY)
@@ -64,7 +71,7 @@ def get_country_from_request(request):
         ip = _extract_ip_address(request.META)
         try:
             geocountry = _geo.country(ip)
-            country_code = geocountry.country.iso_code 
+            country_code = geocountry.country.iso_code
             if country_code:
                 return get_supported_country(country_code)
         except geoip2.errors.AddressNotFoundError:
@@ -92,6 +99,26 @@ def get_supported_country(country_code):
     if country_code in SUPPORTED_COUNTRIES:
         return country_code
     return DEFAULT_COUNTRY_CODE
+
+
+def _get_country_from_header(request, header):
+    """Returns the country code found in given header name
+
+    Args:
+        request (HttpRequest): The request instance
+        header (str): Header to lookup for country
+
+    Returns:
+        str: Country code in ISO 3166-1 alpha-2 format or None if not found
+    """
+    header = header.upper().replace('-', '_')
+    country_code = request.META.get('HTTP_' + header, None)
+    if country_code:
+        supported_country_code = get_supported_country(country_code)
+        if supported_country_code == country_code.upper():
+            return supported_country_code
+        return None
+    return None
 
 
 def _extract_ip_address(meta):

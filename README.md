@@ -66,8 +66,17 @@ The middleware detects country from the following sources in the given order:
 
 ## Settings
 
-## HEADER_FORCE_COUNTRY
+### HEADER_FORCE_COUNTRY
+Default: `None`
+
 Name of the heading to force the country code
+
+### HEADER_REVERSE_PROXY_COUNTRY
+Default: `None`
+
+Name of the header that forwards the detected country code. Useful for use with reverse proxies such as CloudFlare. Set
+this to CF-IPCountry to use the country code detected by CloudFlare. Remember that by default the XX or T1 countries are
+invalid and will be ignored unless they are added to the list of countries in `COUNTRIES`.
 
 ### COUNTRY_CODE
 Default: `'US'`
